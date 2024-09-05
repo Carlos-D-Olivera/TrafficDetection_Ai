@@ -7,7 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv311" />
       <excludeFolder url="file://$MODULE_DIR$/.venv310" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (TrafficDetection_Ai)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (TrafficDetection_Ai)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
