@@ -8,16 +8,16 @@ import threading
 model = YOLO('../Yolo-weights/yolov8n.pt')
 
 # Nombres de clases
-classNames = ["Humano", "bicycle", "carro", "motocicleta", "avion", "bus", "train", "truck", "boat",
-              "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
-              "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
-              "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", "baseball bat",
-              "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "wine glass", "cup",
-              "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange", "broccoli",
-              "carrot", "hot dog", "pizza", "donut", "cake", "chair", "sofa", "pottedplant", "bed",
-              "diningtable", "toilet", "tvmonitor", "laptop", "mouse", "remote", "keyboard", "cell phone",
-              "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
-              "teddy bear", "hair drier", "toothbrush"]
+classNames = ["Humano", "bicycle", "carro", "motocicleta", "", "bus", "", "truck", "",
+              "traffic light", "", "stop sign", "", "", "", "",
+              "", "", "", "", "", "", "", "", "", "",
+              "", "", "", "", "", "", "", "", "",
+              "", "", "", "", "", "", "",
+              "", "Cuchillo/Navaja", "", "", "", "", "", "", "",
+              "", "", "", "", "", "", "", "", "",
+              "", "", "", "", "", "", "", "cell phone",
+              "", "", "", "", "", "", "", "", "Tijeras",
+              "", "", ""]
 
 
 # Función para procesar cada cámara
@@ -40,17 +40,20 @@ def process_camera(camera_id, window_name, ancho, altura):
                 x1, y1, x2, y2 = box.xyxy[0]
                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
 
-                # Rectángulo de cvzone
-                w, h = x2 - x1, y2 - y1
-                cvzone.cornerRect(img, (x1, y1, w, h))
 
-                # Confianza
-                conf = math.ceil((box.conf[0] * 100)) / 100
                 # Clase
                 cls = int(box.cls[0])
+                # Confianza
+                conf = math.ceil((box.conf[0] * 100)) / 100
 
-                # Texto en la imagen
-                cvzone.putTextRect(img, f'{classNames[cls]} {conf}', (max(0, x1), max(35, y1)), scale=1, thickness=1)
+                if f'{classNames[cls]}' != "":
+                    # Rectángulo de cvzone
+                    w, h = x2 - x1, y2 - y1
+                    cvzone.cornerRect(img, (x1, y1, w, h))
+
+
+                    # Texto en la imagen
+                    cvzone.putTextRect(img, f'{classNames[cls]} {conf}', (max(0, x1), max(35, y1)), scale=2, thickness=2)
 
         # Mostrar el video
         cv2.imshow(window_name, img)
@@ -66,7 +69,7 @@ def process_camera(camera_id, window_name, ancho, altura):
 thread1 = threading.Thread(target=process_camera, args=(0, 'Camara 1', 200, 100))
 thread2 = threading.Thread(target=process_camera, args=(1, 'Camara 2', 1440, 720))
 
-# Iniciar los hilos
+# Iniciar los hilos+
 thread1.start()
 thread2.start()
 
